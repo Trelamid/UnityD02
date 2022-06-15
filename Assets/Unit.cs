@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour
     [SerializeField]public int health;
     private SpriteRenderer _sprite;
     public type _type;
+    protected bool _faceRight = true;
 
     public void GetDamage(int damage, GameObject attackObj)
     {
@@ -42,6 +43,12 @@ public class Unit : MonoBehaviour
     void bloodOff()
     {
         _sprite.color = new Color(_sprite.color.r - 0.5f, _sprite.color.g + 0.5f, _sprite.color.b + 0.5f, _sprite.color.a + 0.5f);
+    }
+    
+    protected void Flip()
+    {
+        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.x);
+        _faceRight = !_faceRight;
     }
     // Start is called before the first frame update
     void Start()

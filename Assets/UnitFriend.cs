@@ -15,7 +15,6 @@ public class UnitFriend : Unit
     [SerializeField]private int _attackDamage;
     private Animator _animator;
     private Sprite _sprite;
-    private bool _faceRight = true;
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -58,8 +57,11 @@ public class UnitFriend : Unit
         if (Time.time > _forRate)
         {
             _forRate = Time.time + _rateOfAttack;
-            if(_attackIt)
+            if (_attackIt)
+            {
+                _animator.Play("A_ManAttack");
                 _attackIt.GetComponent<Unit>().GetDamage(_attackDamage, gameObject);
+            }
         }
     }
     
@@ -121,10 +123,5 @@ public class UnitFriend : Unit
         _attackIt = attackIt;
         freedomLvl = 2;
     }
-
-    private void Flip()
-    {
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.x);
-        _faceRight = !_faceRight;
-    }
+    
 }
