@@ -35,6 +35,23 @@ public class MainBuilds : Unit
         }
     }
 
+    public override void DebugAttack(GameObject attackObj)
+    {
+        if (_type == type.enemy)
+        {
+            UnitEnemy[] enemies = GameObject.FindObjectsOfType<UnitEnemy>();
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                enemies[i].AttackIt(attackObj);
+            }
+            Debug.Log("Main Enemy Build ["+health+"/500]HP has been attacked");
+        }
+        else
+        {
+            Debug.Log("Main Friend Build ["+health+"/500]HP has been attacked");
+        }
+    }
+
     void SpawnWarrior()
     {
         Instantiate(_warrior, transform.position, Quaternion.identity);

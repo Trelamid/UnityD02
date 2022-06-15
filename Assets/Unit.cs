@@ -13,28 +13,17 @@ public class Unit : MonoBehaviour
     private SpriteRenderer _sprite;
     public type _type;
 
-    public void GetDamage(int damage)
+    public void GetDamage(int damage, GameObject attackObj)
     {
         _sprite = GetComponent<SpriteRenderer>();
         _sprite.color = new Color(_sprite.color.r + 0.5f, _sprite.color.g - 0.5f, _sprite.color.b - 0.5f, _sprite.color.a);
         health -= damage;
 
-        DebugAttack();
+        DebugAttack(attackObj);
         
-        if (health < 0)
+        if (health <= 0)
         {
             _Controller = GameObject.FindObjectOfType<RTSController>();
-            foreach (var VARIABLE in _Controller._unitsActive)
-            {
-                if (VARIABLE == this)
-                {
-                    _Controller._unitsActive.Remove(VARIABLE);
-                }
-            }
-            Destroy(gameObject);
-            // gameObject.SetActive(false);
-            // gameObject.name.Contains("En
-            // _Controller = GameObject.FindObjectOfType<RTSController>();
             // foreach (var VARIABLE in _Controller._unitsActive)
             // {
             //     if (VARIABLE == this)
@@ -42,12 +31,13 @@ public class Unit : MonoBehaviour
             //         _Controller._unitsActive.Remove(VARIABLE);
             //     }
             // }
+            Destroy(gameObject);
         }
 
         Invoke("bloodOff", 0.5f);
     }
 
-    public virtual void DebugAttack(){}
+    public virtual void DebugAttack(GameObject attackObj){}
 
     void bloodOff()
     {

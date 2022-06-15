@@ -62,6 +62,17 @@ public class RTSController : MonoBehaviour
             else
                 unit = null;
 
+            for (int i = 0; i < _unitsActive.Count; i++)
+            {
+                if (_unitsActive[i])
+                {
+                    if(unit == null || unit._type == Unit.type.friend)
+                        _unitsActive[i].MoveThere(_main.ScreenToWorldPoint(Input.mousePosition));
+                    else
+                        _unitsActive[i].AttackIt(unit.gameObject);
+                }
+            }
+            
             foreach (var VARIABLE in _unitsActive)
             {
                 if(unit == null || unit._type == Unit.type.friend)

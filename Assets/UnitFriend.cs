@@ -52,13 +52,13 @@ public class UnitFriend : Unit
     {
         if (Time.time > _forRate)
         {
-            _forRate += _rateOfAttack;
+            _forRate = Time.time + _rateOfAttack;
             if(_attackIt)
-                _attackIt.GetComponent<Unit>().GetDamage(_attackDamage);
+                _attackIt.GetComponent<Unit>().GetDamage(_attackDamage, gameObject);
         }
     }
     
-    public override void DebugAttack()
+    public override void DebugAttack(GameObject attackObj)
     {
         Debug.Log("Human Unit ["+health+"/100]HP has been attacked.");
     }
