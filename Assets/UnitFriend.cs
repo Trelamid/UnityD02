@@ -24,11 +24,13 @@ public class UnitFriend : Unit
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (freedomLvl == 0)
+        {
             _animator.Play("A_ManIdle");
-        if (freedomLvl == 1)
+        }
+        else if (freedomLvl == 1)
         {
             Vector2 myPos = transform.position;
             if ((_movePos - myPos).magnitude > 0.5f)
