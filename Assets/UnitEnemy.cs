@@ -11,9 +11,10 @@ public class UnitEnemy : Unit
     private float _rateOfAttack = 2f;
     private float _forRate;
     [SerializeField]private int _attackDamage;
+    private Animator _animator;
     void Start()
     {
-        
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -67,7 +68,13 @@ public class UnitEnemy : Unit
             Vector2 myPos = transform.position;
             Vector2 endPos = _attackIt.transform.position;
             if ((endPos - myPos).magnitude > 0.5f)
+            {
+                _animator.SetBool("Attack", false);
+                Vector2 auf = (endPos - myPos).normalized;
                 transform.Translate((endPos - myPos).normalized * Time.deltaTime * speed);
+                _animator.SetFloat("Horizontal", auf.x);
+                _animator.SetFloat("Vertical", auf.y);
+            }
             else
                 freedomLvl = 3;
         }
@@ -95,6 +102,7 @@ public class UnitEnemy : Unit
             Vector2 endPos = _attackIt.transform.position;
             if ((endPos - myPos).magnitude <= 0.7f)
             {
+                _animator.SetBool("Attack", true);
                 // Debug.Log(_attackIt.name);
                 Unit unit;
                 if (!_attackIt || !(unit = _attackIt.GetComponent<Unit>()))
@@ -108,7 +116,9 @@ public class UnitEnemy : Unit
                 }
             }
             else
+            {
                 freedomLvl = 2;
+            }
             
             // Debug.Log("Attack");
         }
