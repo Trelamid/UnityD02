@@ -12,9 +12,11 @@ public class UnitEnemy : Unit
     private float _forRate;
     [SerializeField]private int _attackDamage;
     private Animator _animator;
+    private AudioSource _audio;
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -102,6 +104,7 @@ public class UnitEnemy : Unit
             Vector2 endPos = _attackIt.transform.position;
             if ((endPos - myPos).magnitude <= 0.7f)
             {
+                _audio.Play();
                 _animator.SetBool("Attack", true);
                 // Debug.Log(_attackIt.name);
                 Unit unit;
