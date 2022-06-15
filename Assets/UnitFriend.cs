@@ -24,13 +24,18 @@ public class UnitFriend : Unit
     // Update is called once per frame
     void Update()
     {
+        if (freedomLvl == 0)
+            _animator.Play("A_ManIdle");
         if (freedomLvl == 1)
         {
             Vector2 myPos = transform.position;
             if ((_movePos - myPos).magnitude > 0.5f)
                 transform.Translate((_movePos - myPos).normalized * Time.deltaTime * speed);
             else
+            {
+                _animator.Play("A_ManIdle");
                 freedomLvl = 0;
+            }
         }
         else if(freedomLvl == 2)
         {
@@ -48,19 +53,24 @@ public class UnitFriend : Unit
         }
         else if (freedomLvl == 3)
         {
+            _animator.Play("A_ManAttackRight");
             Attack();
         }
+            
     }
 
-    void Attack()
+    private void Attack()
     {
         if (Time.time > _forRate)
         {
             _forRate = Time.time + _rateOfAttack;
             if (_attackIt)
             {
-                _animator.Play("A_ManAttack");
                 _attackIt.GetComponent<Unit>().GetDamage(_attackDamage, gameObject);
+            }
+            else
+            {
+                freedomLvl = 0;
             }
         }
     }
@@ -69,10 +79,10 @@ public class UnitFriend : Unit
     {
         Debug.Log("Human Unit ["+health+"/100]HP has been attacked.");
     }
+    
     public void MoveThere(Vector2 pos)
     {
         const float f = 0.5f;
-        _animator.StopPlayback();
         if (_movePos.x < pos.x && Math.Abs(_movePos.y - pos.y) < f)
         {
             if (!_faceRight) Flip();

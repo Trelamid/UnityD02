@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour
     {
         friend, enemy
     }
-    [SerializeField]public int health;
+    public int health;
     private SpriteRenderer _sprite;
     public type _type;
     protected bool _faceRight = true;
