@@ -1315,6 +1315,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7734485786346092118, guid: 1c9b331a5c81444479daabdd17b48b68, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c9b331a5c81444479daabdd17b48b68, type: 3}
 --- !u!1 &2315185613186454502 stripped
@@ -1430,6 +1434,10 @@ PrefabInstance:
     - target: {fileID: 1340344189742172107, guid: 9f593ed921534ba47a4ea96f034e5637, type: 3}
       propertyPath: m_Name
       value: SecondsBuildsEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1340344189742172107, guid: 9f593ed921534ba47a4ea96f034e5637, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1340344189742172109, guid: 9f593ed921534ba47a4ea96f034e5637, type: 3}
       propertyPath: m_RootOrder
@@ -1619,7 +1627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5886651409533264322, guid: cdf0fd483defbdf4ab257553d99846b3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5886651409533264351, guid: cdf0fd483defbdf4ab257553d99846b3, type: 3}
       propertyPath: _warrior
