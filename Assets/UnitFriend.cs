@@ -15,8 +15,10 @@ public class UnitFriend : Unit
     [SerializeField]private int _attackDamage;
     private Animator _animator;
     private Sprite _sprite;
+    private AudioSource _audioSource;
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<Sprite>();
     }
@@ -66,6 +68,7 @@ public class UnitFriend : Unit
             _forRate = Time.time + _rateOfAttack;
             if (_attackIt)
             {
+                _audioSource.Play();
                 _attackIt.GetComponent<Unit>().GetDamage(_attackDamage, gameObject);
             }
             else
