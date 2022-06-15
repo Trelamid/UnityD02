@@ -19,16 +19,51 @@ public class UnitEnemy : Unit
     // Update is called once per frame
     void Update()
     {
-        if (freedomLvl == 1)
+        if (freedomLvl == 0)
         {
-            Vector2 myPos = transform.position;
-            if ((_movePos - myPos).magnitude > 0.5f)
-                transform.Translate((_movePos - myPos).normalized * Time.deltaTime * speed);
+            // Debug.Log("Fidnd");
+            float min = 1000000;
+            GameObject friendAttack = null;
+            
+            UnitFriend[] friends = GameObject.FindObjectsOfType<UnitFriend>();
+            for (int i = 0; i < friends.Length; i++)
+            {
+                if (friends[i]._type == type.friend && friends[i].name.Contains("Friend")&& (friends[i].gameObject.transform.position - transform.position).magnitude < min)
+                {
+                    min = (friends[i].gameObject.transform.position - transform.position).magnitude;
+                    friendAttack = friends[i].gameObject;
+                }
+            }
+            if (friendAttack != null)
+            {
+                AttackIt(friendAttack);
+                freedomLvl = 2;
+            }
             else
-                freedomLvl = 0;
+            {
+                Unit[] friendsAll = GameObject.FindObjectsOfType<Unit>();
+                for (int i = 0; i < friendsAll.Length; i++)
+                {
+                    if (friendsAll[i]._type == type.friend && friendsAll[i].name.Contains("Friend")&& (friendsAll[i].gameObject.transform.position - transform.position).magnitude < min)
+                    {
+                        min = (friendsAll[i].gameObject.transform.position - transform.position).magnitude;
+                        friendAttack = friendsAll[i].gameObject;
+                    }
+                }
+                if (friendAttack != null)
+                {
+                    AttackIt(friendAttack);
+                    freedomLvl = 2;
+                }
+            }
         }
         else if(freedomLvl == 2)
         {
+            if (!_attackIt)
+            {
+                freedomLvl = 0;
+                return;
+            }
             Vector2 myPos = transform.position;
             Vector2 endPos = _attackIt.transform.position;
             if ((endPos - myPos).magnitude > 0.5f)
@@ -44,15 +79,42 @@ public class UnitEnemy : Unit
 
     void Attack()
     {
-        if (Time.time > _forRate)
+        if (!_attackIt)
         {
-            _attackIt.GetComponent<Unit>().GetDamage(_attackDamage);
-            _forRate += _rateOfAttack;
+            freedomLvl = 0;
+        }
+        else if (Time.time > _forRate)
+        {
+            // if (!_attackIt)
+            // {
+            //     freedomLvl = 0;
+            //     return;
+            // }
+            _forRate = Time.time + _rateOfAttack;
+            Vector2 myPos = transform.position;
+            Vector2 endPos = _attackIt.transform.position;
+            if ((endPos - myPos).magnitude <= 0.7f)
+            {
+                // Debug.Log(_attackIt.name);
+                Unit unit;
+                if (!_attackIt || !(unit = _attackIt.GetComponent<Unit>()))
+                {
+                    freedomLvl = 0;
+                    return;
+                }
+                else
+                {
+                    unit.GetDamage(_attackDamage, gameObject);
+                }
+            }
+            else
+                freedomLvl = 2;
+            
             // Debug.Log("Attack");
         }
     }
 
-    public override void DebugAttack()
+    public override void DebugAttack(GameObject attackObj)
     {
         Debug.Log("Orc Unit ["+health+"/100]HP has been attacked.");
     }
